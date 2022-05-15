@@ -3,7 +3,7 @@
 
 /* 
  *  Compilación y ejecución:
- *      mpicc -o bin 0_template.c && mpirun -np 2 ./bin 
+ *      mpicc -o bin 1_barriers_sync.c && mpirun -np 2 ./bin 
  *
  * Directivas básicas de MPI:
  *  MPI_Init():
@@ -23,6 +23,15 @@
  *
  *  MPI_Finalize():
  *      This function cleans up the MPI environment and ends MPI communications.
+ *
+ *  
+ *  Sincronización:
+ *      Herramienta escencial para la seguridad de los threads y para asegurar
+ *      que ciertas seccioens de código son manejadas en ciertos puntos.
+ *      
+ *  MPI_Barrier( MPI_Comm comm ):
+ *      Es un bloqueador de proesos que mantiene cada proceso a una cierta linea
+ *      de código hasta uqe todos los procesos han alcanzado esa línea de código.
  */      
 
 int main( int argc, char** argv ) {
@@ -36,8 +45,13 @@ int main( int argc, char** argv ) {
     // Obtiene el rank de un proceso respectivamente
     MPI_Comm_rank( MPI_COMM_WORLD, &process_Rank );
 
-    printf( "Hola Mundo desde el proceso %d de %d\n", process_Rank, size_Of_Cluster );
-
+    for( int i = 0; i < size_Of_Cluster; i++ ) {
+        // Condición para asegurar que todos los procesos están sincronizados
+        // cuando pasen por el loop
+        if( i == process_Rank )
+            printf( "Hola desde el proceso %d de %d\n", process_Rank, size_Of_Cluster );
+    
+    }
     MPI_Finalize();
 
     return 0;
