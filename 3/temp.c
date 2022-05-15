@@ -2,7 +2,15 @@
 #include <math.h>
 #include <mpi.h>
 
-/* We define pi here so we can check and see how accurate our computation is. */
+/* --Instrucciones de compilación y ejecución-- 
+ * Compilación Intel MPI:
+ *      mpicc temp.c -o bin
+ * 
+ * Ejecución:
+ *      mpirun -np %numero_de_slaves% ./bin
+ */      
+
+/* Definimos pi aqui para después revisarlo y comprobar la precisión del calculo */
 #define PI 3.141592653589793238462643
 
 int main(int argc, char **argv) {
